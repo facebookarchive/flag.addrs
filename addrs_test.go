@@ -103,3 +103,69 @@ func TestFlagOneInvalidFormat(t *testing.T) {
 		t.Fatal("did not get expected error, got", err)
 	}
 }
+
+func TestFlagMany(t *testing.T) {
+	t.Parallel()
+	name := genName()
+	var a1 []net.Addr
+	addrs.FlagManyVar(&a1, name, "", "")
+
+	const network0 = "tcp"
+	const addr0 = "127.0.0.1:1234"
+	const network1 = "tcp"
+	const addr1 = "127.0.0.1:5678"
+
+	if err := flag.Set(name, network0+":"+addr0+","+network1+":"+addr1); err != nil {
+		t.Fatal(err)
+	}
+	if a1[0].Network() != network0 {
+		t.Fatal("did not find expected network")
+	}
+	if a1[0].String() != addr0 {
+		t.Fatal("did not find expected addr")
+	}
+	if a1[1].Network() != network1 {
+		t.Fatal("did not find expected network")
+	}
+	if a1[1].String() != addr1 {
+		t.Fatal("did not find expected addr")
+	}
+}
+
+func TestFlagManyDefaultValue(t *testing.T) {
+	t.Parallel()
+	name := genName()
+	var a1 []net.Addr
+	const network0 = "tcp"
+	const addr0 = "127.0.0.1:1234"
+	const network1 = "tcp"
+	const addr1 = "127.0.0.1:5678"
+	addrs.FlagManyVar(&a1, name, network0+":"+addr0+","+network1+":"+addr1, "")
+
+	if a1[0].Network() != network0 {
+		t.Fatal("did not find expected network")
+	}
+	if a1[0].String() != addr0 {
+		t.Fatal("did not find expected addr")
+	}
+	if a1[1].Network() != network1 {
+		t.Fatal("did not find expected network")
+	}
+	if a1[1].String() != addr1 {
+		t.Fatal("did not find expected addr")
+	}
+}
+
+func TestFlagManyInvalidDefaultValue(t *testing.T) {
+	t.Parallel()
+	defer func() {
+		if err := recover(); err == nil {
+			t.Fatal("was expecting panic")
+		}
+	}()
+	name := genName()
+	var a1 []net.Addr
+	const network = "foo"
+	const addr = "127.0.0.1:1234"
+	addrs.FlagManyVar(&a1, name, network+":"+addr, "")
+}
