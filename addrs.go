@@ -35,7 +35,7 @@ func FlagOneVar(dest *net.Addr, name string, addr string, usage string) {
 		if err != nil {
 			panic(err)
 		}
-		dest = &ra
+		*dest = ra
 	}
 	flag.Var(&flagOne{addr: dest}, name, usage)
 }
