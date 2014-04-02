@@ -7,7 +7,7 @@ import (
 	"sync"
 	"testing"
 
-	"github.com/ParsePlatform/go.flag.addrs"
+	"github.com/facebookgo/flag.addrs"
 )
 
 var (
