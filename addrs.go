@@ -29,8 +29,8 @@ func (f *flagOne) String() string {
 	return (*f.addr).Network() + ":" + (*f.addr).String()
 }
 
-// Set a single net.Addr by a flag. The value is expected to be a colon
-// separated net:host:port.
+// FlagOneVar sets a single net.Addr by a flag. The value is expected to be a
+// colon separated net:host:port.
 func FlagOneVar(dest *net.Addr, name string, addr string, usage string) {
 	f := &flagOne{addr: dest}
 	if addr != "" {
@@ -76,8 +76,8 @@ func (f *flagMany) String() string {
 	return buf.String()
 }
 
-// Set a slice of net.Addr by a flag. The values are expected to be comma
-// separated list of net:host:port triples.
+// FlagManyVar sets a slice of net.Addr by a flag. The values are expected to
+// be comma separated list of net:host:port triples.
 func FlagManyVar(dest *[]net.Addr, name string, addrs string, usage string) {
 	f := &flagMany{addrs: dest}
 	if addrs != "" {
