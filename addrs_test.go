@@ -23,7 +23,6 @@ func genName() string {
 }
 
 func TestFlagOne(t *testing.T) {
-	t.Parallel()
 	name := genName()
 	var a1 net.Addr
 	addrs.FlagOneVar(&a1, name, "", "")
@@ -43,7 +42,6 @@ func TestFlagOne(t *testing.T) {
 }
 
 func TestFlagOneInvalidNetwork(t *testing.T) {
-	t.Parallel()
 	name := genName()
 	var a1 net.Addr
 	addrs.FlagOneVar(&a1, name, "", "")
@@ -61,7 +59,6 @@ func TestFlagOneInvalidNetwork(t *testing.T) {
 }
 
 func TestFlagOneDefaultValue(t *testing.T) {
-	t.Parallel()
 	name := genName()
 	var a1 net.Addr
 	const network = "udp"
@@ -76,7 +73,6 @@ func TestFlagOneDefaultValue(t *testing.T) {
 }
 
 func TestFlagOneInvalidDefaultValue(t *testing.T) {
-	t.Parallel()
 	defer func() {
 		if err := recover(); err == nil {
 			t.Fatal("was expecting panic")
@@ -90,7 +86,6 @@ func TestFlagOneInvalidDefaultValue(t *testing.T) {
 }
 
 func TestFlagOneInvalidFormat(t *testing.T) {
-	t.Parallel()
 	name := genName()
 	var a1 net.Addr
 	addrs.FlagOneVar(&a1, name, "", "")
@@ -105,7 +100,6 @@ func TestFlagOneInvalidFormat(t *testing.T) {
 }
 
 func TestFlagMany(t *testing.T) {
-	t.Parallel()
 	name := genName()
 	var a1 []net.Addr
 	addrs.FlagManyVar(&a1, name, "", "")
@@ -133,7 +127,6 @@ func TestFlagMany(t *testing.T) {
 }
 
 func TestFlagManyDefaultValue(t *testing.T) {
-	t.Parallel()
 	name := genName()
 	var a1 []net.Addr
 	const network0 = "tcp"
@@ -157,7 +150,6 @@ func TestFlagManyDefaultValue(t *testing.T) {
 }
 
 func TestFlagManyInvalidDefaultValue(t *testing.T) {
-	t.Parallel()
 	defer func() {
 		if err := recover(); err == nil {
 			t.Fatal("was expecting panic")
