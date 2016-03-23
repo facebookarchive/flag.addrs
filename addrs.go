@@ -32,13 +32,19 @@ func (f *flagOne) String() string {
 // FlagOneVar sets a single net.Addr by a flag. The value is expected to be a
 // colon separated net:host:port.
 func FlagOneVar(dest *net.Addr, name string, addr string, usage string) {
+	FlagSetOneVar(flag.CommandLine, dest, name, addr, usage)
+}
+
+// FlagSetOneVar sets a single net.Addr by a flag in a flag.FlagSet. The value
+// is expected to be a colon separated net:host:port.
+func FlagSetOneVar(set *flag.FlagSet, dest *net.Addr, name string, addr string, usage string) {
 	f := &flagOne{addr: dest}
 	if addr != "" {
 		if err := f.Set(addr); err != nil {
 			panic(err)
 		}
 	}
-	flag.Var(f, name, usage)
+	set.Var(f, name, usage)
 }
 
 type flagMany struct {
@@ -79,13 +85,19 @@ func (f *flagMany) String() string {
 // FlagManyVar sets a slice of net.Addr by a flag. The values are expected to
 // be comma separated list of net:host:port triples.
 func FlagManyVar(dest *[]net.Addr, name string, addrs string, usage string) {
+	FlagSetManyVar(flag.CommandLine, dest, name, addrs, usage)
+}
+
+// FlagSetManyVar sets a slice of net.Addr by a flag in a flag.FlagSet. The
+// values are expected to be comma separated list of net:host:port triples.
+func FlagSetManyVar(set *flag.FlagSet, dest *[]net.Addr, name string, addrs string, usage string) {
 	f := &flagMany{addrs: dest}
 	if addrs != "" {
 		if err := f.Set(addrs); err != nil {
 			panic(err)
 		}
 	}
-	flag.Var(f, name, usage)
+	set.Var(f, name, usage)
 }
 
 func resolveAddr(addr string) (net.Addr, error) {
